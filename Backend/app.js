@@ -1,8 +1,22 @@
+// this is the main file for the backend
+// it is used to configure the server and the database
+
+// this is used to load the environment variables from the .env file
 const dotenv = require("dotenv");
 dotenv.config();
-const express = require("express");
-const cors = require("cors");
 
+// this is used to create the express application
+const express = require("express");
+
+// this is used to allow the frontend to access the backend
+
+const cors = require("cors");
+// this is used to connect to the database
+const connectDB = require("./db/db");
+// calling the database
+connectDB();
+
+// initializing the express application
 const app = express();
 
 // this used to allow the frontend to access the backend
@@ -15,4 +29,5 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+// exporting the express application
 module.exports = app;
