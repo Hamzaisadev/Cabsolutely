@@ -11,12 +11,11 @@ const userSchema = new mongoose.Schema({
     },
     lastname: {
       type: String,
-
       minlength: [3, "Last name must be at least 3 characters long"],
     },
   },
   email:{
-    type: String,,
+    type: String,
     required: true,
     unique: true,
     minlength: [3, "Email must be at least 3 characters long"],
@@ -25,14 +24,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
-  }
-  ,socketId:{
-    type: String,
-    required: true,
   },
   phone:{
     type: String,
     required: true,
+    unique: true,
+    minlength: [10, "Phone number must be at least 10 characters long"],
+  },
+  socketId:{
+    type: String,
   },
 })
 

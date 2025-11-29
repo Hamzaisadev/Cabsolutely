@@ -13,6 +13,8 @@ const express = require("express");
 const cors = require("cors");
 // this is used to connect to the database
 const connectDB = require("./db/db");
+
+const userRoutes = require("./routes/user.route");
 // calling the database
 connectDB();
 
@@ -25,9 +27,13 @@ const app = express();
 // in production the domain will only be allowed to access the backend
 app.use(cors());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+app.use('/users', userRoutes)
 
 // exporting the express application
 module.exports = app;
