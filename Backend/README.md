@@ -1,18 +1,20 @@
-# User Registration Endpoint
+# Backend API Documentation
 
-## Description
+## User Registration
+
+### Description
 
 Registers a new user in the system.
 
-## URL
+### URL
 
 `/user/register`
 
-## Method
+### Method
 
 `POST`
 
-## Request Body
+### Request Body
 
 The request body must be a JSON object with the following properties:
 
@@ -25,7 +27,7 @@ The request body must be a JSON object with the following properties:
 | `password`           | String | Yes      | Minimum 6 characters.                  |
 | `phone`              | String | Yes      | Minimum 10 characters.                 |
 
-### Example Request
+#### Example Request
 
 ```json
 {
@@ -39,7 +41,7 @@ The request body must be a JSON object with the following properties:
 }
 ```
 
-## Success Response
+### Success Response
 
 **Code:** `201 Created`
 
@@ -61,9 +63,9 @@ The request body must be a JSON object with the following properties:
 }
 ```
 
-## Error Responses
+### Error Responses
 
-### Validation Error
+#### Validation Error
 
 **Code:** `400 Bad Request`
 
@@ -87,7 +89,111 @@ The request body must be a JSON object with the following properties:
 }
 ```
 
-### Internal Server Error
+#### Internal Server Error
+
+**Code:** `500 Internal Server Error`
+
+**Content:**
+
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+
+## User Login
+
+### Description
+
+Authenticates a user and returns an authentication token.
+
+### URL
+
+`/user/login`
+
+### Method
+
+`POST`
+
+### Request Body
+
+The request body must be a JSON object with the following properties:
+
+| Field      | Type   | Required | Description                    |
+| ---------- | ------ | -------- | ------------------------------ |
+| `email`    | String | Yes      | Must be a valid email address. |
+| `password` | String | Yes      | Minimum 6 characters.          |
+
+#### Example Request
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "securePassword123"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+**Content:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "60d0fe4f5311236168a109ca",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "__v": 0
+  }
+}
+```
+
+### Error Responses
+
+#### Validation Error
+
+**Code:** `400 Bad Request`
+
+**Content:**
+
+```json
+{
+  "errors": [
+    {
+      "value": "invalid-email",
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Invalid Credentials
+
+**Code:** `401 Unauthorized`
+
+**Content:**
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+#### Internal Server Error
 
 **Code:** `500 Internal Server Error`
 
